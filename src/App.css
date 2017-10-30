@@ -1,0 +1,153 @@
+.add-newpost {
+  margin-left: 2%;
+}
+
+.post-footer {
+  color: #a7acb7;
+}
+
+.arrow {
+  cursor: pointer;
+  height: 50px;
+  padding: 1px;
+}
+
+.addpost-img {
+  position: absolute;
+  cursor: pointer;
+  height: 100px;
+  top: 70%;
+  right: 4%;
+}
+
+.author-date {
+  height: 110px;
+}
+
+.back-arrow {
+  position: absolute;
+  cursor: pointer;
+  height: 75px;
+  transform: rotate(-90deg);
+  top: 30px;
+  left: 30px;
+}
+
+.date-time {
+  font-size: 9px;
+  position: absolute;
+  bottom: 0px;
+}
+
+.delete-post {
+  color: red;
+}
+
+.delete-post:link {
+  text-decoration: none;
+}
+
+.down-arrow {
+  transform: rotate(180deg);
+}
+
+.edit-symbol {
+  cursor: pointer;
+  height: 36px;
+  margin-left: 10%;
+}
+
+.btn-primary, .btn-primary:hover {
+  background-color: white !important;
+  border-color: #8064A2 !important;
+  color: #8064A2 !important;
+}
+
+.btn-primary.active,
+.btn-primary:active {
+    background-color: #8064A2 !important;
+    color: white !important;
+}
+
+.comment-box {
+  height: 110px;
+  border-style: solid;
+  border-color: #8064A2;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.comment-arrow {
+  height: 40px;
+}
+
+.form-group {
+  margin-right: 2%;
+  margin-left: 2%;
+}
+
+.jumbotron{
+  text-align: center !important;
+  background-color: #8064A2;
+  color: white;
+  margin-left: -20px;
+  margin-right: -20px;
+}
+
+h4, h3, p {
+  color: #535559;
+}
+h3 {
+  text-align: center;
+  font-size: 14px;
+}
+
+.post-body {
+  border-style: solid;
+  border-color: #8064A2;
+  border-radius: 5px;
+}
+
+.post-comment {
+  margin-top: 3px;
+  border-style: solid;
+  border-color: #8064A2;
+  border-radius: 5px;
+}
+
+.post-title {
+  cursor: pointer;
+}
+
+.sort-item {
+  border-top-left-radius: 30% !important;
+  width: 100px;
+}
+.vote-number {
+  margin-top: -5px;
+  margin-bottom: -5px;
+  padding-left: 12px;
+}
+
+@media (min-width: 768px) {
+  h3 {
+    font-size: 28px;
+  }
+  .back-arrow {
+    top: 25px;
+    left: 150px;
+    height: 150px;
+  }
+  .addpost-img {
+    height: 180px;
+    right: 2%;
+  }
+}
+
+@media (min-width: 1024px){
+  .addpost-img {
+    height: 180px;
+    right: 17%;
+  }
+}
