@@ -20,6 +20,14 @@
   right: 4%;
 }
 
+.addcomment-img {
+  position: absolute;
+  cursor: pointer;
+  height: 60px;
+  bottom: 0%;
+  left: 45%;
+}
+
 .author-date {
   height: 110px;
 }
@@ -143,6 +151,10 @@ h3 {
     height: 150px;
     right: 12%;
   }
+  .addcomment-img {
+    height: 150px;
+    left: 45%;
+  }
 }
 
 @media (min-width: 1024px){
@@ -150,4 +162,5 @@ h3 {
     height: 150px;
     right: 17%;
   }
+
 }

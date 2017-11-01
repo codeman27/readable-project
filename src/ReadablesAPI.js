@@ -58,6 +58,22 @@ export const addPost = (id, timestamp, title, body, author, category) =>
     })
   }).then(res => res.json())
 
+export const addComment = (id, timestamp, body, author, parentId) =>
+  fetch(`${api}/comments`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id,
+      timestamp,
+      body,
+      author,
+      parentId
+    })
+  }).then(res => res.json())
+
 export const postVote = (id, voteType) =>
   fetch(`${api}/posts/${id}`, {
   method: 'POST',

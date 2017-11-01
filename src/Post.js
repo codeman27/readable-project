@@ -3,6 +3,7 @@ import backArrow from './Images/BackArrow.svg'
 import { Link } from 'react-router-dom'
 import arrow from './Images/Arrow.svg'
 import editSymbol from './Images/EditSymbol.svg'
+import addPostImg from './Images/AddSymbol.svg'
 
 class Post extends Component {
   state = {
@@ -58,6 +59,7 @@ class Post extends Component {
             )
           })}
         </div>
+        <Link to="/addnewcomment"><img alt="A plus sign to add a post" className="addcomment-img" src={addPostImg}/></Link>
       </div>
     )
   }

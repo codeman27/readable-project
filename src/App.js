@@ -1,11 +1,12 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
+import { Route, Redirect } from 'react-router-dom'
 import Categories from './Categories'
 import ContentSection from './ContentSection'
 import AddNewPost from './AddNewPost'
-import * as ReadablesAPI from './ReadablesAPI'
-import { Route, Redirect } from 'react-router-dom'
 import Post from './Post'
+import * as ReadablesAPI from './ReadablesAPI'
+import AddNewComment from './AddNewComment'
 import './App.css'
 
 const uuidv1 = require('uuid/v1')
@@ -75,6 +76,13 @@ class App extends Component {
     const id = uuidv1()
     const timestamp = Date.now()
     ReadablesAPI.addPost(id, timestamp, title, body, author, category).then(() => this.listPosts(header === 'Readables!' ? 'All' : header))
+  }
+
+  addNewComment = (body, author, parentId) => {
+    const { header } = this.state
+    const id = uuidv1()
+    const timestamp = Date.now()
+    ReadablesAPI.addComment(id, timestamp, body, author, parentId).then(() => this.listPosts(header === 'Readables!' ? 'All' : header))
   }
 
   submitEditPost = (id, title, body) => {
@@ -152,6 +160,11 @@ class App extends Component {
             header={this.state.header}
         />
         )}></Route>
+        <Route exact path="/addnewcomment" render={() => (
+          <AddNewComment post={this.state.post}
+            onAddNewComment={this.addNewComment}
+            header={this.state.header}/>
+        )} />
       </div>
     );
   }
