@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import backArrow from './Images/BackArrow.svg'
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
 
 class AddNewPost extends Component{
   state = {
+    id: '',
     title: '',
     category: 'react',
     author: '',
-    body: ''
+    body: '',
+    edit: false
   }
 
   updateTitleValue = (title) => {
@@ -26,10 +29,41 @@ class AddNewPost extends Component{
     this.setState({body})
   }
 
+  addOrEditPost = (title, body, author, category, id) => {
+    if(this.state.edit){
+      this.props.onSubmitEditPost(id, title, body)
+    }else{
+      this.props.onAddNewPost(title, body, author, category)
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    const post = nextProps.post
+    if(!_.isEmpty(post)){
+      this.setState({
+        id: post.id,
+        title: post.title,
+        category: post.category,
+        author: post.author,
+        body: post.body,
+        edit: true
+      })
+    } else {
+      this.setState({
+        id: '',
+        title: '',
+        category: 'react',
+        author: '',
+        body: '',
+        edit: false
+      })
+    }
+  }
+
   render(){
     return (
       <div>
-        <Link to={`/posts/${this.state.category}`}><img className="back-arrow" alt="A back arrow" src={backArrow}/></Link>
+        <Link to={`/posts/${this.props.header === 'Readables!' ? 'All' : this.props.header}`}><img className="back-arrow" alt="A back arrow" src={backArrow}/></Link>
         <form>
           <div className="form-group">
             Title: <input className="form-control"
@@ -62,7 +96,7 @@ class AddNewPost extends Component{
           </div>
         </form>
         <Link to="/posts/all"><button className="btn btn-primary add-newpost"
-          onClick={() => this.props.onAddNewPost(this.state.title, this.state.body, this.state.author, this.state.category)}>Submit</button>
+          onClick={() => this.addOrEditPost(this.state.title, this.state.body, this.state.author, this.state.category, this.state.id)}>Submit</button>
         </Link>
       </div>
     )

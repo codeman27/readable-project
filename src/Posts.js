@@ -28,7 +28,7 @@ const Posts = (props) => {
                   </div>
                   <div className="col-sm-2 col-xs-3 author-date">
                     <Link className="delete-post" to="/" onClick={() => props.onDeletePost(post.id)}>X</Link>
-                    <img alt="edit symbol" className="edit-symbol" src={editSymbol}/>
+                    <Link to="/addnewpost" onClick={() => props.onGetPostId(post.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
                     <p className="date-time">{new Date(post.timestamp).toLocaleString()}</p>
                   </div>
                 </div>

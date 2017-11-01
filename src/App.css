@@ -15,7 +15,7 @@
 .addpost-img {
   position: absolute;
   cursor: pointer;
-  height: 100px;
+  height: 60px;
   top: 70%;
   right: 4%;
 }
@@ -53,8 +53,8 @@
 
 .edit-symbol {
   cursor: pointer;
-  height: 36px;
-  margin-left: 10%;
+  height: 18px;
+  margin-left: 50%;
 }
 
 .btn-primary, .btn-primary:hover {
@@ -140,14 +140,14 @@ h3 {
     height: 150px;
   }
   .addpost-img {
-    height: 180px;
-    right: 2%;
+    height: 150px;
+    right: 12%;
   }
 }
 
 @media (min-width: 1024px){
   .addpost-img {
-    height: 180px;
+    height: 150px;
     right: 17%;
   }
 }

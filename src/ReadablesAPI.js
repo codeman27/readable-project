@@ -18,20 +18,28 @@ export const getPosts = () =>
   .then(results => results.json())
   .then(data => data)
 
+export const getPost = (id) =>
+  fetch(`${api}/posts/${id}`, { headers })
+  .then(results => results.json())
+  .then(data => data)
+
 export const getCommentsByPostId = (id) =>
   fetch(`${api}/posts/${id}/comments`, { headers })
   .then(results => results.json())
   .then(data => data)
 
-export const postVote = (id, voteType) =>
+export const editPost = (id, title, body) =>
   fetch(`${api}/posts/${id}`, {
-  method: 'POST',
-  headers: {
-    ...headers,
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ option: voteType })
-}).then(res => res.json())
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      title,
+      body
+    })
+  }).then(res => res.json())
 
 export const addPost = (id, timestamp, title, body, author, category) =>
   fetch(`${api}/posts`, {
@@ -49,6 +57,16 @@ export const addPost = (id, timestamp, title, body, author, category) =>
       category
     })
   }).then(res => res.json())
+
+export const postVote = (id, voteType) =>
+  fetch(`${api}/posts/${id}`, {
+  method: 'POST',
+  headers: {
+    ...headers,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ option: voteType })
+}).then(res => res.json())
 
 export const deletePost = (id) =>
   fetch(`${api}/posts/${id}`, {
