@@ -56,7 +56,7 @@ class Post extends Component {
                   </div>
                   <div className="col-xs-1">
                     <Link to="/" className="delete-post"  onClick={() => this.props.onDeleteComment(comment.id, this.state.postObj.id)}>X</Link>
-                    <Link to="/addnewcomment" onClick={() => this.props.onGetPostId(this.state.postObj.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
+                    <Link to="/addnewcomment" onClick={() => this.props.onGetCommentId(comment.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
                   </div>
                 </div>
               </div>

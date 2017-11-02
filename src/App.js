@@ -95,6 +95,11 @@ class App extends Component {
     ReadablesAPI.editPost(id, title, body).then(() => this.listPosts(header === 'Readables!' ? 'All' : header))
   }
 
+  submitEditComment = (id, body) => {
+    const timestamp = Date.now()
+    ReadablesAPI.editComment(id, timestamp, body)
+  }
+
   deletePost = (id) => {
     const {header} = this.state
     ReadablesAPI.deletePost(id).then(() => this.listPosts(header === 'Readables!' ? 'All' : header))
@@ -165,6 +170,7 @@ class App extends Component {
             onVote={this.votePost}
             onDeletePost={this.deletePost}
             onGetPostId={this.getPostId}
+            onGetCommentId={this.getCommentId}
             onVoteComment={this.voteComment}
             onDeleteComment={this.deleteComment}
           />
@@ -180,7 +186,9 @@ class App extends Component {
         <Route exact path="/addnewcomment" render={() => (
           <AddNewComment post={this.state.post}
             header={this.state.header}
+            comment={this.state.comment}
             onAddNewComment={this.addNewComment}
+            onSubmitEditComment={this.submitEditComment}
             />
         )} />
       </div>

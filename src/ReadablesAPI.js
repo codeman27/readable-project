@@ -46,6 +46,19 @@ export const editPost = (id, title, body) =>
     })
   }).then(res => res.json())
 
+export const editComment = (id, timestamp, body) =>
+  fetch(`${api}/comments/${id}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      timestamp,
+      body
+    })
+  }).then(res => res.json())
+
 export const addPost = (id, timestamp, title, body, author, category) =>
   fetch(`${api}/posts`, {
     method: 'POST',

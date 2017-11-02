@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import backArrow from './Images/BackArrow.svg'
+import _ from 'lodash'
 
 class AddNewComment extends Component {
   state = {
+    id: '',
     body: '',
-    author: ''
+    author: '',
+    edit: false
   }
 
   changeBody = (body) => {
@@ -16,8 +19,31 @@ class AddNewComment extends Component {
     this.setState({author})
   }
 
-  addOrEditComment = (body, author, parentId) => {
-    this.props.onAddNewComment(body, author, parentId)
+  addOrEditComment = (id, body, author, parentId) => {
+    if(this.state.edit) {
+      this.props.onSubmitEditComment(id, body)
+    } else {
+      this.props.onAddNewComment(body, author, parentId)
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    const comment = nextProps.comment
+    if(!_.isEmpty(comment)){
+      this.setState({
+        id: comment.id,
+        author: comment.author,
+        body: comment.body,
+        edit: true
+      })
+    } else {
+      this.setState({
+        id: comment.id,
+        author: comment.author,
+        body: comment.body,
+        edit: false
+      })
+    }
   }
 
   render(){
@@ -43,7 +69,7 @@ class AddNewComment extends Component {
             onChange={event => this.changeAuthor(event.target.value)}></input>
         </div>
         <Link to={`/posts/${this.props.header === 'Readables!' ? 'All' : this.props.header}`}><button className="btn btn-primary add-newpost"
-          onClick={() => this.addOrEditComment(this.state.body, this.state.author, this.props.post.id)}>Submit</button>
+          onClick={() => this.addOrEditComment(this.state.id, this.state.body, this.state.author, this.props.post.id)}>Submit</button>
         </Link>
       </div>
     )
