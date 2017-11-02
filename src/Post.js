@@ -17,7 +17,7 @@ class Post extends Component {
   render(){
     return(
       <div>
-        <Link to="/posts/all"><img className="back-arrow" alt="A back arrow" src={backArrow}/></Link>
+        <Link to={`/posts/${this.props.header === 'Readables!' ? 'All' : this.props.header}`}><img className="back-arrow" alt="A back arrow" src={backArrow}/></Link>
         <div className="container">
           <div className="row post-body">
             <div className="col-sm-1 col-xs-2">
@@ -43,16 +43,20 @@ class Post extends Component {
               <div key={comment.id} className="row">
                 <div className="col-sm-11 col-xs-10 pull-right post-comment">
                   <div className="col-sm-1 col-xs-2">
-                    <img alt="An upvote arrow" className="arrow comment-arrow" src={arrow}/>
+                    <img alt="An upvote arrow" className="arrow comment-arrow" src={arrow} onClick={() => this.props.onVoteComment(comment.id, 'upVote', this.state.postObj.id)}/>
                     <h4 className="vote-number">{comment.voteScore}</h4>
-                    <img alt="A downvote arrow" className="arrow down-arrow comment-arrow" src={arrow}/>
+                    <img alt="A downvote arrow" className="arrow down-arrow comment-arrow" src={arrow} onClick={() => this.props.onVoteComment(comment.id, 'downVote', this.state.postObj.id)}/>
                   </div>
-                  <div className="col-xs-10">
+                  <div className="col-sm-10 col-xs-9">
                     <p>{comment.body}</p>
                     <center>
                       <p className="post-footer">{comment.author}</p>
                       <p className="post-footer">{new Date(comment.timestamp).toLocaleString()}</p>
                     </center>
+                  </div>
+                  <div className="col-xs-1">
+                    <Link to="/" className="delete-post"  onClick={() => this.props.onDeleteComment(comment.id, this.state.postObj.id)}>X</Link>
+                    <Link to="/addnewcomment" onClick={() => this.props.onGetPostId(this.state.postObj.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
                   </div>
                 </div>
               </div>

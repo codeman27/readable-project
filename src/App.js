@@ -16,14 +16,15 @@ class App extends Component {
     header: 'Readables!',
     categories: [],
     posts: [],
+    post: {},
     sortVal: 'voteScore',
     sortDir: 'desc',
-    post: [],
-    comments: []
+    comments: [],
+    comment: {}
   }
 
   clearPostValue = () => {
-    this.setState({post: []})
+    this.setState({post: {}})
   }
 
   listPosts = (value) => {
@@ -65,6 +66,10 @@ class App extends Component {
     ReadablesAPI.getPost(id).then(post => this.setState({post}))
   }
 
+  getCommentId = (id) => {
+    ReadablesAPI.getComment(id).then(comment => this.setState({comment}))
+  }
+
   getCommentsByPost = (id) => {
     ReadablesAPI.getCommentsByPostId(id).then(comments => {
       return this.setState({comments})
@@ -95,9 +100,18 @@ class App extends Component {
     ReadablesAPI.deletePost(id).then(() => this.listPosts(header === 'Readables!' ? 'All' : header))
   }
 
-  vote = (id, voteType) => {
+  deleteComment = (id, postId) => {
+    const {header} = this.state
+    ReadablesAPI.deleteComment(id).then(() => this.listPosts(header === 'Readables!' ? 'All' : header)).then(() => this.getCommentsByPost(postId))
+  }
+
+  votePost = (id, voteType) => {
     const {header} = this.state
     ReadablesAPI.postVote(id, voteType).then(() => this.listPosts(header === 'Readables!' ? 'All' : header)).then(() => this.getPostId(id))
+  }
+
+  voteComment = (id, voteType, postId) => {
+    ReadablesAPI.postCommentVote(id, voteType).then(() => this.getCommentsByPost(postId))
   }
 
   componentDidMount() {
@@ -128,7 +142,7 @@ class App extends Component {
             <Route exact path="/posts/:category" render={() => (
               <ContentSection posts={this.state.posts}
                 onSortPosts={this.sortPosts}
-                onVote={this.vote}
+                onVote={this.votePost}
                 onGetPostId={this.getPostId}
                 onGetCommentsByPost={this.getCommentsByPost}
                 onDeletePost={this.deletePost}
@@ -147,9 +161,12 @@ class App extends Component {
         <Route exact path="/post/:id" render={() => (
           <Post post={this.state.post}
             comments={this.state.comments}
-            onVote={this.vote}
+            header={this.state.header}
+            onVote={this.votePost}
             onDeletePost={this.deletePost}
             onGetPostId={this.getPostId}
+            onVoteComment={this.voteComment}
+            onDeleteComment={this.deleteComment}
           />
         )}></Route>
         <Route exact path="/addnewpost" render={() => (
@@ -162,8 +179,9 @@ class App extends Component {
         )}></Route>
         <Route exact path="/addnewcomment" render={() => (
           <AddNewComment post={this.state.post}
+            header={this.state.header}
             onAddNewComment={this.addNewComment}
-            header={this.state.header}/>
+            />
         )} />
       </div>
     );

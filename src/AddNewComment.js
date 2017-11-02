@@ -23,7 +23,7 @@ class AddNewComment extends Component {
   render(){
     return (
       <div>
-        <Link to="/posts/all"><img className="back-arrow" alt="A back arrow" src={backArrow}/></Link>
+        <Link to={`/posts/${this.props.header === 'Readables!' ? 'All' : this.props.header}`}><img className="back-arrow" alt="A back arrow" src={backArrow}/></Link>
         <div className="container">
           <div className="row post-body">
             <center><h4>{this.props.post.title}</h4></center>
