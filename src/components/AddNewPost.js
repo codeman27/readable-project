@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import backArrow from './Images/BackArrow.svg'
+import backArrow from '../Images/BackArrow.svg'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 

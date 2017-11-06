@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import addPostImg from './Images/AddSymbol.svg'
+import addPostImg from '../Images/AddSymbol.svg'
 import { Link } from 'react-router-dom'
 
 class Categories extends Component {

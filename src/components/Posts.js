@@ -1,7 +1,7 @@
 import React from 'react'
-import arrow from './Images/Arrow.svg'
+import arrow from '../Images/Arrow.svg'
 import { Link } from 'react-router-dom'
-import editSymbol from './Images/EditSymbol.svg'
+import editSymbol from '../Images/EditSymbol.svg'
 
 const Posts = (props) => {
   const getPostAndComments = (id) => {

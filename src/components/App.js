@@ -1,19 +1,19 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 import Categories from './Categories'
 import ContentSection from './ContentSection'
 import AddNewPost from './AddNewPost'
 import Post from './Post'
 import * as ReadablesAPI from './ReadablesAPI'
 import AddNewComment from './AddNewComment'
-import './App.css'
+import '../App.css'
 
 const uuidv1 = require('uuid/v1')
 
 class App extends Component {
   state = {
-    header: 'Readables!',
     categories: [],
     posts: [],
     post: {},
@@ -196,4 +196,10 @@ class App extends Component {
   }
 }
 
-export default App
+function mapStateToProps(state) {
+  return {
+    header: state.header
+  }
+}
+
+export default connect(mapStateToProps)(App)

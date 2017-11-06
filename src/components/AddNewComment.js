@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import backArrow from './Images/BackArrow.svg'
+import backArrow from '../Images/BackArrow.svg'
 import _ from 'lodash'
 
 class AddNewComment extends Component {

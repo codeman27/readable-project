@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import backArrow from './Images/BackArrow.svg'
+import backArrow from '../Images/BackArrow.svg'
 import { Link } from 'react-router-dom'
-import arrow from './Images/Arrow.svg'
-import editSymbol from './Images/EditSymbol.svg'
-import addPostImg from './Images/AddSymbol.svg'
+import arrow from '../Images/Arrow.svg'
+import editSymbol from '../Images/EditSymbol.svg'
+import addPostImg from '../Images/AddSymbol.svg'
 
 class Post extends Component {
   state = {
