@@ -9,6 +9,7 @@ import Post from './Post'
 import * as ReadablesAPI from './ReadablesAPI'
 import AddNewComment from './AddNewComment'
 import '../App.css'
+import { changeHeader } from '../actions'
 
 const uuidv1 = require('uuid/v1')
 
@@ -130,12 +131,14 @@ class App extends Component {
   }
 
   render() {
+    const {changeHeader} = this.props
+    console.log(this.props)
     return (
       <div>
         <div className="container-fluid">
           <div className="row">
             <div className="jumbotron">
-              <h1>{this.state.header}</h1>
+              <h1></h1>
             </div>
           </div>
         </div>
@@ -156,8 +159,8 @@ class App extends Component {
             )}></Route>
             <Route exact path="/posts/:category" render={() => (
               <Categories
-                header={this.state.header}
-                onChangeHeader={this.changeHeader}
+                header={this.props.header}
+                onChangeHeader={changeHeader}
                 categories={this.state.categories}
               />
             )}></Route>
@@ -196,10 +199,17 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps({header, categories}) {
   return {
-    header: state.header
+    header,
+    categories
   }
 }
 
-export default connect(mapStateToProps)(App)
+function mapDispatchToProps(dispatch) {
+  return {
+    changeHeader: (data) => dispatch(changeHeader(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

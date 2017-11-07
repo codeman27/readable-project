@@ -17,7 +17,7 @@ class Categories extends Component {
   }
 
   componentDidMount(){
-    this.setState({navSelected: this.props.header === 'Readables!' ? 'All' : this.props.header})
+    this.setState({navSelected: this.props.header})
   }
 
   render() {
@@ -28,7 +28,7 @@ class Categories extends Component {
             <div className="col-xs-12">
               <h3>Categories</h3>
               <ul className="nav nav-pills nav-stacked">
-                <li><Link to="/posts/All" className={this.isNavActive('All')} onClick={() => { this.setActiveNav('All') }}>All</Link></li>
+                <li><Link to="/posts/All" className={this.isNavActive('Readables!')} onClick={() => { this.setActiveNav('Readables!') }}>All</Link></li>
                 {this.props.categories.map((category) => {
                   let uppercaseName = category.name.charAt(0).toUpperCase() + category.name.slice(1)
                   return(
