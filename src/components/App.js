@@ -9,19 +9,15 @@ import Post from './Post'
 import * as ReadablesAPI from './ReadablesAPI'
 import AddNewComment from './AddNewComment'
 import '../App.css'
-import { changeHeader } from '../actions'
+import { changeHeader, setCategories, setPosts, setComments } from '../actions'
 
 const uuidv1 = require('uuid/v1')
 
 class App extends Component {
   state = {
-    categories: [],
-    posts: [],
     post: {},
     sortVal: 'voteScore',
     sortDir: 'desc',
-    comments: [],
-    comment: {}
   }
 
   clearPostValue = () => {
@@ -30,35 +26,36 @@ class App extends Component {
 
   listPosts = (value) => {
     const {sortVal, sortDir} = this.state
-    if(value === 'All'){
+    if(value === 'Readables!'){
       ReadablesAPI.getPosts().then(posts => {
-        this.setState({posts: _.orderBy(posts, sortVal, sortDir)})
+        this.props.setPosts(_.orderBy(posts, sortVal, sortDir))
       })
     } else {
       ReadablesAPI.getCategoryPosts(value.toLowerCase()).then(posts => {
-        this.setState({posts: _.orderBy(posts, sortVal, sortDir)})
+        this.props.setPosts(_.orderBy(posts, sortVal, sortDir))
       })
     }
   }
 
   changeHeader = (value) => {
-    this.setState({header: value === 'All' ? 'Readables!' : value})
+    this.props.changeHeader(value)
     this.listPosts(value)
   }
 
   sortPosts = (value) => {
-    const {sortVal, sortDir, header} = this.state
+    const { header } = this.props
+    const {sortVal, sortDir} = this.state
     if(value === 'Votes'){
       if(sortVal === 'voteScore'){
-        this.setState({sortDir: sortDir ==='desc' ? 'asc' : 'desc'}, () => this.listPosts(header === 'Readables!' ? 'All' : header))
+        this.setState({sortDir: sortDir ==='desc' ? 'asc' : 'desc'}, () => this.listPosts(header))
       } else {
-        this.setState({sortVal: 'voteScore', sortDir: 'desc'}, () => this.listPosts(header === 'Readables!' ? 'All' : header))
+        this.setState({sortVal: 'voteScore', sortDir: 'desc'}, () => this.listPosts(header))
       }
     } else {
         if(sortVal === 'timestamp'){
-          this.setState({sortDir: sortDir ==='desc' ? 'asc' : 'desc'}, () => this.listPosts(header === 'Readables!' ? 'All' : header))
+          this.setState({sortDir: sortDir ==='desc' ? 'asc' : 'desc'}, () => this.listPosts(header))
         } else {
-          this.setState({sortVal: 'timestamp', sortDir: 'desc'}, () => this.listPosts(header === 'Readables!' ? 'All' : header))
+          this.setState({sortVal: 'timestamp', sortDir: 'desc'}, () => this.listPosts(header))
         }
     }
   }
@@ -73,27 +70,27 @@ class App extends Component {
 
   getCommentsByPost = (id) => {
     ReadablesAPI.getCommentsByPostId(id).then(comments => {
-      return this.setState({comments})
+      this.props.setComments(comments)
     })
   }
 
   addNewPost = (title, body, author, category) => {
-    const {header} = this.state
+    const {header} = this.props
     const id = uuidv1()
     const timestamp = Date.now()
-    ReadablesAPI.addPost(id, timestamp, title, body, author, category).then(() => this.listPosts(header === 'Readables!' ? 'All' : header))
+    ReadablesAPI.addPost(id, timestamp, title, body, author, category).then(() => this.listPosts(header))
   }
 
   addNewComment = (body, author, parentId) => {
-    const { header } = this.state
+    const { header } = this.props
     const id = uuidv1()
     const timestamp = Date.now()
-    ReadablesAPI.addComment(id, timestamp, body, author, parentId).then(() => this.listPosts(header === 'Readables!' ? 'All' : header))
+    ReadablesAPI.addComment(id, timestamp, body, author, parentId).then(() => this.listPosts(header))
   }
 
   submitEditPost = (id, title, body) => {
-    const {header} = this.state
-    ReadablesAPI.editPost(id, title, body).then(() => this.listPosts(header === 'Readables!' ? 'All' : header))
+    const {header} = this.props
+    ReadablesAPI.editPost(id, title, body).then(() => this.listPosts(header))
   }
 
   submitEditComment = (id, body) => {
@@ -102,18 +99,18 @@ class App extends Component {
   }
 
   deletePost = (id) => {
-    const {header} = this.state
-    ReadablesAPI.deletePost(id).then(() => this.listPosts(header === 'Readables!' ? 'All' : header))
+    const {header} = this.props
+    ReadablesAPI.deletePost(id).then(() => this.listPosts(header))
   }
 
   deleteComment = (id, postId) => {
-    const {header} = this.state
-    ReadablesAPI.deleteComment(id).then(() => this.listPosts(header === 'Readables!' ? 'All' : header)).then(() => this.getCommentsByPost(postId))
+    const {header} = this.props
+    ReadablesAPI.deleteComment(id).then(() => this.listPosts(header)).then(() => this.getCommentsByPost(postId))
   }
 
   votePost = (id, voteType) => {
-    const {header} = this.state
-    ReadablesAPI.postVote(id, voteType).then(() => this.listPosts(header === 'Readables!' ? 'All' : header)).then(() => this.getPostId(id))
+    const {header} = this.props
+    ReadablesAPI.postVote(id, voteType).then(() => this.listPosts(header)).then(() => this.getPostId(id))
   }
 
   voteComment = (id, voteType, postId) => {
@@ -123,32 +120,31 @@ class App extends Component {
   componentDidMount() {
     const {sortVal, sortDir} = this.state
     ReadablesAPI.getCategories().then(categories => {
-      this.setState({categories})
+      this.props.setCategories(categories)
     })
     ReadablesAPI.getPosts().then(posts => {
-      this.setState({posts: _.orderBy(posts, sortVal, sortDir)})
+      this.props.setPosts(_.orderBy(posts, sortVal, sortDir))
     })
   }
 
   render() {
     const {changeHeader} = this.props
-    console.log(this.props)
     return (
       <div>
         <div className="container-fluid">
           <div className="row">
             <div className="jumbotron">
-              <h1></h1>
+              <h1>{this.props.header}</h1>
             </div>
           </div>
         </div>
         <div className="container">
           <div className="row">
             <Route exact path="/" render={() => (
-              <Redirect to="/posts/all" />
+              <Redirect to="/posts/All" />
             )} />
             <Route exact path="/posts/:category" render={() => (
-              <ContentSection posts={this.state.posts}
+              <ContentSection posts={this.props.posts}
                 onSortPosts={this.sortPosts}
                 onVote={this.votePost}
                 onGetPostId={this.getPostId}
@@ -161,15 +157,15 @@ class App extends Component {
               <Categories
                 header={this.props.header}
                 onChangeHeader={changeHeader}
-                categories={this.state.categories}
+                categories={this.props.categories}
               />
             )}></Route>
           </div>
         </div>
         <Route exact path="/post/:id" render={() => (
           <Post post={this.state.post}
-            comments={this.state.comments}
-            header={this.state.header}
+            comments={this.props.comments}
+            header={this.props.header}
             onVote={this.votePost}
             onDeletePost={this.deletePost}
             onGetPostId={this.getPostId}
@@ -181,14 +177,14 @@ class App extends Component {
         <Route exact path="/addnewpost" render={() => (
           <AddNewPost onAddNewPost={this.addNewPost}
             onSubmitEditPost={this.submitEditPost}
-            categories={this.state.categories}
+            categories={this.props.categories}
             post={this.state.post}
-            header={this.state.header}
+            header={this.props.header}
         />
         )}></Route>
         <Route exact path="/addnewcomment" render={() => (
           <AddNewComment post={this.state.post}
-            header={this.state.header}
+            header={this.props.header}
             comment={this.state.comment}
             onAddNewComment={this.addNewComment}
             onSubmitEditComment={this.submitEditComment}
@@ -199,17 +195,22 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({header, categories}) {
+function mapStateToProps({header, categories, posts, comments}) {
   return {
     header,
-    categories
+    categories,
+    posts,
+    comments
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeHeader: (data) => dispatch(changeHeader(data))
+    changeHeader: (data) => dispatch(changeHeader(data)),
+    setCategories: (data) => dispatch(setCategories(data)),
+    setPosts: (data) => dispatch(setPosts(data)),
+    setComments: (data) => dispatch(setComments(data))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps, null, {pure: false})(App)

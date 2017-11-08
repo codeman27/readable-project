@@ -2,32 +2,52 @@ import { combineReducers } from 'redux'
 
 import {
   CHANGE_HEADER,
-  GET_CATEGORIES
+  SET_CATEGORIES,
+  SET_POSTS,
+  SET_COMMENTS
 } from '../actions'
 
-const initialHeaderState = {
-  header: 'Readables!'
-}
+const initialHeaderState = 'Readables!'
 
 function header (state = initialHeaderState, action) {
-  const header = action.header
   switch(action.type){
     case CHANGE_HEADER:
-      return {...state, header}
+      const {header} = action
+      return header
     default: return state
   }
 }
 
 function categories (state = [], action) {
-  const {categories} = action
   switch(action.type) {
-    case GET_CATEGORIES:
-      return {...state, categories}
+    case SET_CATEGORIES:
+      const {categories} = action
+      return categories
+    default: return state
+  }
+}
+
+function posts (state = [], action){
+  switch(action.type) {
+    case SET_POSTS:
+      const {posts} = action
+      return posts
+    default: return state
+  }
+}
+
+function comments (state = [], action){
+  switch(action.type) {
+    case SET_COMMENTS:
+      const {comments} = action
+      return comments
     default: return state
   }
 }
 
 export default combineReducers({
   header,
-  categories
+  categories,
+  posts,
+  comments
 })
