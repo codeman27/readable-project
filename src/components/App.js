@@ -9,7 +9,7 @@ import Post from './Post'
 import * as ReadablesAPI from './ReadablesAPI'
 import AddNewComment from './AddNewComment'
 import '../App.css'
-import { changeHeader, setCategories, setPosts, setComments } from '../actions'
+import * as actions from '../actions'
 
 const uuidv1 = require('uuid/v1')
 
@@ -37,10 +37,10 @@ class App extends Component {
     }
   }
 
-  changeHeader = (value) => {
-    this.props.changeHeader(value)
-    this.listPosts(value)
-  }
+  // changeHeader = (value) => {
+  //   this.props.changeHeader(value)
+  //   this.listPosts(value)
+  // }
 
   sortPosts = (value) => {
     const { header } = this.props
@@ -118,13 +118,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const {sortVal, sortDir} = this.state
-    ReadablesAPI.getCategories().then(categories => {
-      this.props.setCategories(categories)
-    })
-    ReadablesAPI.getPosts().then(posts => {
-      this.props.setPosts(_.orderBy(posts, sortVal, sortDir))
-    })
+    this.props.setCategories()
+    // const {sortVal, sortDir} = this.state
+    // ReadablesAPI.getCategories().then(categories => {
+    //   this.props.setCategories(categories)
+    // })
+    // ReadablesAPI.getPosts().then(posts => {
+    //   this.props.setPosts(_.orderBy(posts, sortVal, sortDir))
+    // })
   }
 
   render() {
@@ -185,7 +186,6 @@ class App extends Component {
         <Route exact path="/addnewcomment" render={() => (
           <AddNewComment post={this.state.post}
             header={this.props.header}
-            comment={this.state.comment}
             onAddNewComment={this.addNewComment}
             onSubmitEditComment={this.submitEditComment}
             />
@@ -206,10 +206,10 @@ function mapStateToProps({header, categories, posts, comments}) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeHeader: (data) => dispatch(changeHeader(data)),
-    setCategories: (data) => dispatch(setCategories(data)),
-    setPosts: (data) => dispatch(setPosts(data)),
-    setComments: (data) => dispatch(setComments(data))
+    changeHeader: (data) => dispatch(actions.changeHeader(data)),
+    setCategories: () => dispatch(actions.setCategories()),
+    setPosts: (data) => dispatch(actions.setPosts(data)),
+    setComments: (data) => dispatch(actions.setComments(data))
   }
 }
 
