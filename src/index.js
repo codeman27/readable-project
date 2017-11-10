@@ -9,8 +9,9 @@ import { Provider } from 'react-redux'
 import {createStore, applyMiddleware, compose} from 'redux'
 import promiseMiddleware from 'redux-promise-middleware'
 import logger from 'redux-logger'
+import thunk from 'redux-thunk'
 
-const middleware = applyMiddleware(promiseMiddleware(), logger)
+const middleware = applyMiddleware(promiseMiddleware(), thunk, logger)
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(reducer,
   reducer,

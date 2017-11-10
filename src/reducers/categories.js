@@ -1,10 +1,9 @@
-import {SET_CATEGORIES} from '../actions/actionTypes'
+import {SET_CATEGORIES_FULFILLED} from '../actions/actionTypes'
 
 export function categories (state = [], action) {
   switch(action.type) {
-  //  case SET_CATEGORIES:
-  //    const {categories} = action
-  //    return categories
+    case SET_CATEGORIES_FULFILLED:
+      return action.payload
     default: return state
   }
 }

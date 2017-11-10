@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import React, { Component } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -20,27 +19,21 @@ class App extends Component {
     sortDir: 'desc',
   }
 
+  changeHeader = (header) => {
+      this.props.changeHeader(header)
+      this.listPosts(header)
+  }
+
   clearPostValue = () => {
     this.setState({post: {}})
   }
 
-  listPosts = (value) => {
+  listPosts = (header) => {
     const {sortVal, sortDir} = this.state
-    if(value === 'Readables!'){
-      ReadablesAPI.getPosts().then(posts => {
-        this.props.setPosts(_.orderBy(posts, sortVal, sortDir))
-      })
-    } else {
-      ReadablesAPI.getCategoryPosts(value.toLowerCase()).then(posts => {
-        this.props.setPosts(_.orderBy(posts, sortVal, sortDir))
-      })
-    }
+    header === 'Readables!' ?
+      this.props.setPosts(sortVal, sortDir) :
+      this.props.setCategoryPosts(header.toLowerCase(), sortVal, sortDir)
   }
-
-  // changeHeader = (value) => {
-  //   this.props.changeHeader(value)
-  //   this.listPosts(value)
-  // }
 
   sortPosts = (value) => {
     const { header } = this.props
@@ -118,18 +111,12 @@ class App extends Component {
   }
 
   componentDidMount() {
+    const {sortVal, sortDir} = this.state
     this.props.setCategories()
-    // const {sortVal, sortDir} = this.state
-    // ReadablesAPI.getCategories().then(categories => {
-    //   this.props.setCategories(categories)
-    // })
-    // ReadablesAPI.getPosts().then(posts => {
-    //   this.props.setPosts(_.orderBy(posts, sortVal, sortDir))
-    // })
+    this.props.setPosts(sortVal, sortDir)
   }
 
   render() {
-    const {changeHeader} = this.props
     return (
       <div>
         <div className="container-fluid">
@@ -157,7 +144,7 @@ class App extends Component {
             <Route exact path="/posts/:category" render={() => (
               <Categories
                 header={this.props.header}
-                onChangeHeader={changeHeader}
+                onChangeHeader={this.changeHeader}
                 categories={this.props.categories}
               />
             )}></Route>
@@ -208,8 +195,9 @@ function mapDispatchToProps(dispatch) {
   return {
     changeHeader: (data) => dispatch(actions.changeHeader(data)),
     setCategories: () => dispatch(actions.setCategories()),
-    setPosts: (data) => dispatch(actions.setPosts(data)),
-    setComments: (data) => dispatch(actions.setComments(data))
+    setPosts: (sortVal, sortDir) => dispatch(actions.setPosts(sortVal, sortDir)),
+    setComments: (data) => dispatch(actions.setComments(data)),
+    setCategoryPosts: (category, sortVal, sortDir) => dispatch(actions.setCategoryPosts(category, sortVal, sortDir))
   }
 }
 
