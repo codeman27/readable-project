@@ -14,7 +14,6 @@ const uuidv1 = require('uuid/v1')
 
 class App extends Component {
   state = {
-    post: {},
     sortVal: 'voteScore',
     sortDir: 'desc',
   }
@@ -22,10 +21,6 @@ class App extends Component {
   changeHeader = (header) => {
       this.props.changeHeader(header)
       this.listPosts(header)
-  }
-
-  clearPostValue = () => {
-    this.setState({post: {}})
   }
 
   listPosts = (header) => {
@@ -51,20 +46,6 @@ class App extends Component {
           this.setState({sortVal: 'timestamp', sortDir: 'desc'}, () => this.listPosts(header))
         }
     }
-  }
-
-  getPostId = (id) => {
-    ReadablesAPI.getPost(id).then(post => this.setState({post}))
-  }
-
-  getCommentId = (id) => {
-    ReadablesAPI.getComment(id).then(comment => this.setState({comment}))
-  }
-
-  getCommentsByPost = (id) => {
-    ReadablesAPI.getCommentsByPostId(id).then(comments => {
-      this.props.setComments(comments)
-    })
   }
 
   addNewPost = (title, body, author, category) => {
@@ -98,16 +79,16 @@ class App extends Component {
 
   deleteComment = (id, postId) => {
     const {header} = this.props
-    ReadablesAPI.deleteComment(id).then(() => this.listPosts(header)).then(() => this.getCommentsByPost(postId))
+    ReadablesAPI.deleteComment(id).then(() => this.listPosts(header)).then(() => this.props.setComments(postId))
   }
 
   votePost = (id, voteType) => {
     const {header} = this.props
-    ReadablesAPI.postVote(id, voteType).then(() => this.listPosts(header)).then(() => this.getPostId(id))
+    ReadablesAPI.postVote(id, voteType).then(() => this.listPosts(header)).then(() => this.props.setPost(id))
   }
 
   voteComment = (id, voteType, postId) => {
-    ReadablesAPI.postCommentVote(id, voteType).then(() => this.getCommentsByPost(postId))
+    ReadablesAPI.postCommentVote(id, voteType).then(() => this.props.setComments(postId))
   }
 
   componentDidMount() {
@@ -135,8 +116,8 @@ class App extends Component {
               <ContentSection posts={this.props.posts}
                 onSortPosts={this.sortPosts}
                 onVote={this.votePost}
-                onGetPostId={this.getPostId}
-                onGetCommentsByPost={this.getCommentsByPost}
+                onGetPostId={this.props.setPost}
+                onGetCommentsByPost={this.props.setComments}
                 onDeletePost={this.deletePost}
                 onClearPostValue={this.clearPostValue}
               />
@@ -151,13 +132,13 @@ class App extends Component {
           </div>
         </div>
         <Route exact path="/post/:id" render={() => (
-          <Post post={this.state.post}
+          <Post post={this.props.post}
             comments={this.props.comments}
             header={this.props.header}
             onVote={this.votePost}
             onDeletePost={this.deletePost}
-            onGetPostId={this.getPostId}
-            onGetCommentId={this.getCommentId}
+            onGetPostId={this.props.setPost}
+            onGetCommentId={this.props.setComment}
             onVoteComment={this.voteComment}
             onDeleteComment={this.deleteComment}
           />
@@ -166,12 +147,13 @@ class App extends Component {
           <AddNewPost onAddNewPost={this.addNewPost}
             onSubmitEditPost={this.submitEditPost}
             categories={this.props.categories}
-            post={this.state.post}
+            post={this.props.post}
             header={this.props.header}
         />
         )}></Route>
         <Route exact path="/addnewcomment" render={() => (
-          <AddNewComment post={this.state.post}
+          <AddNewComment post={this.props.post}
+            comment={this.props.comment}
             header={this.props.header}
             onAddNewComment={this.addNewComment}
             onSubmitEditComment={this.submitEditComment}
@@ -182,12 +164,14 @@ class App extends Component {
   }
 }
 
-function mapStateToProps({header, categories, posts, comments}) {
+function mapStateToProps({header, categories, posts, comments, post, comment}) {
   return {
     header,
     categories,
     posts,
-    comments
+    post,
+    comments,
+    comment
   }
 }
 
@@ -196,8 +180,11 @@ function mapDispatchToProps(dispatch) {
     changeHeader: (data) => dispatch(actions.changeHeader(data)),
     setCategories: () => dispatch(actions.setCategories()),
     setPosts: (sortVal, sortDir) => dispatch(actions.setPosts(sortVal, sortDir)),
-    setComments: (data) => dispatch(actions.setComments(data)),
-    setCategoryPosts: (category, sortVal, sortDir) => dispatch(actions.setCategoryPosts(category, sortVal, sortDir))
+    setCategoryPosts: (category, sortVal, sortDir) => dispatch(actions.setCategoryPosts(category, sortVal, sortDir)),
+    setPost: (id) => dispatch(actions.setPost(id)),
+    setComments: (postId) => dispatch(actions.setComments(postId)),
+    setComment: (id) => dispatch(actions.setComment(id))
+
   }
 }
 

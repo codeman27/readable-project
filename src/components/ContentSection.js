@@ -15,10 +15,6 @@ class ContentSection extends Component {
     return 'btn btn-primary sort-item ' + (value === this.state.sortSelected ? 'active' : 'default')
   }
 
-  componentDidMount(){
-    this.props.onClearPostValue()
-  }
-
   render() {
     return (
       <div>

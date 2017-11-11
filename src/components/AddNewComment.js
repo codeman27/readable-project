@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import backArrow from '../Images/BackArrow.svg'
-import _ from 'lodash'
 
 class AddNewComment extends Component {
   state = {
@@ -29,21 +28,13 @@ class AddNewComment extends Component {
 
   componentWillReceiveProps(nextProps){
     const comment = nextProps.comment
-    if(!_.isEmpty(comment)){
-      this.setState({
-        id: comment.id,
-        author: comment.author,
-        body: comment.body,
-        edit: true
-      })
-    } else {
-      this.setState({
-        id: comment.id,
-        author: comment.author,
-        body: comment.body,
-        edit: false
-      })
-    }
+    console.log(comment)
+    this.setState({
+      id: comment.id,
+      author: comment.author,
+      body: comment.body,
+      edit: true
+    })
   }
 
   render(){
