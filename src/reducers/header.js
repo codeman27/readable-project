@@ -1,8 +1,6 @@
 import {CHANGE_HEADER} from '../actions/actionTypes'
 
-const initialHeaderState = 'Readables!'
-
-export function header (state = initialHeaderState, action) {
+export function header (state = 'Readables!', action) {
   switch(action.type){
     case CHANGE_HEADER:
       const {header} = action
