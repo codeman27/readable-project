@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Categories from './Categories'
 import ContentSection from './ContentSection'
@@ -107,13 +107,9 @@ class App extends Component {
             </div>
           </div>
         </div>
-        <Switch>
         <div className="container">
           <div className="row">
-            {/* <Route exact path="/" render={() => (
-              <Redirect to="/posts/All" />
-            )} /> */}
-            <Route exact path="(/\w+)" render={() => (
+            <Route exact path="(/\w+|/)" render={() => (
               <ContentSection posts={this.props.posts}
                 onSortPosts={this.sortPosts}
                 onVote={this.votePost}
@@ -123,44 +119,43 @@ class App extends Component {
                 onClearPostValue={this.clearPostValue}
               />
             )}></Route>
-            <Route exact path="(/\w+)" render={() => (
+            <Route exact path="(/\w+|/)" render={() => (
               <Categories
                 header={this.props.header}
                 onChangeHeader={this.changeHeader}
                 categories={this.props.categories}
               />
             )}></Route>
+            <Route exact path="/post/:id" render={() => (
+              <Post post={this.props.post}
+                comments={this.props.comments}
+                header={this.props.header}
+                onVote={this.votePost}
+                onDeletePost={this.deletePost}
+                onGetPostId={this.props.setPost}
+                onGetCommentId={this.props.setComment}
+                onVoteComment={this.voteComment}
+                onDeleteComment={this.deleteComment}
+              />
+            )}></Route>
+            <Route exact path="/new/addnewpost" render={() => (
+              <AddNewPost onAddNewPost={this.addNewPost}
+                onSubmitEditPost={this.submitEditPost}
+                categories={this.props.categories}
+                post={this.props.post}
+                header={this.props.header}
+            />
+            )}></Route>
+            <Route exact path="/new/addnewcomment" render={() => (
+              <AddNewComment post={this.props.post}
+                comment={this.props.comment}
+                header={this.props.header}
+                onAddNewComment={this.addNewComment}
+                onSubmitEditComment={this.submitEditComment}
+                />
+            )} />
           </div>
         </div>
-        <Route exact path="/post/:id" render={() => (
-          <Post post={this.props.post}
-            comments={this.props.comments}
-            header={this.props.header}
-            onVote={this.votePost}
-            onDeletePost={this.deletePost}
-            onGetPostId={this.props.setPost}
-            onGetCommentId={this.props.setComment}
-            onVoteComment={this.voteComment}
-            onDeleteComment={this.deleteComment}
-          />
-        )}></Route>
-        <Route exact path="/addnewpost" render={() => (
-          <AddNewPost onAddNewPost={this.addNewPost}
-            onSubmitEditPost={this.submitEditPost}
-            categories={this.props.categories}
-            post={this.props.post}
-            header={this.props.header}
-        />
-        )}></Route>
-        <Route exact path="/addnewcomment" render={() => (
-          <AddNewComment post={this.props.post}
-            comment={this.props.comment}
-            header={this.props.header}
-            onAddNewComment={this.addNewComment}
-            onSubmitEditComment={this.submitEditComment}
-            />
-        )} />
-        </Switch>
       </div>
     );
   }

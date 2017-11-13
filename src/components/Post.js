@@ -8,7 +8,7 @@ import addPostImg from '../Images/AddSymbol.svg'
 const Post = (props) => {
     return(
       <div>
-        <Link to={`/posts/${props.header === 'Readables!' ? 'All' : props.header}`}><img className="back-arrow" alt="A back arrow" src={backArrow}/></Link>
+        <Link to={`/${props.header === 'Readables!' ? '' : props.header}`}><img className="back-arrow" alt="A back arrow" src={backArrow}/></Link>
         <div className="container">
           <div className="row post-body">
             <div className="col-sm-1 col-xs-2">
@@ -26,7 +26,7 @@ const Post = (props) => {
             </div>
             <div className="col-sm-2">
               <Link className="delete-post" to="/" onClick={() => props.onDeletePost(props.post.id)}>X</Link>
-              <Link to="/addnewpost" onClick={() => props.onGetPostId(props.post.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
+              <Link to="/new/addnewpost" onClick={() => props.onGetPostId(props.post.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
             </div>
           </div>
           {props.comments.map(comment => {
@@ -47,14 +47,14 @@ const Post = (props) => {
                   </div>
                   <div className="col-xs-1">
                     <Link to="/" className="delete-post"  onClick={() => props.onDeleteComment(comment.id, props.post.id)}>X</Link>
-                    <Link to="/addnewcomment" onClick={() => props.onGetCommentId(comment.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
+                    <Link to="/new/addnewcomment" onClick={() => props.onGetCommentId(comment.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
                   </div>
                 </div>
               </div>
             )
           })}
         </div>
-        <Link to="/addnewcomment"><img alt="A plus sign to add a post" className="addcomment-img" src={addPostImg}/></Link>
+        <Link to="/new/addnewcomment"><img alt="A plus sign to add a post" className="addcomment-img" src={addPostImg}/></Link>
       </div>
     )
 }

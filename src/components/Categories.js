@@ -39,7 +39,7 @@ class Categories extends Component {
             </div>
           </div>
         </div>
-        <Link to="/addnewpost"><img alt="A plus sign to add a post" className="addpost-img" src={addPostImg}/></Link>
+        <Link to="/new/addnewpost"><img alt="A plus sign to add a post" className="addpost-img" src={addPostImg}/></Link>
       </div>
     )
   }

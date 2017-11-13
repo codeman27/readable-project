@@ -63,7 +63,7 @@ class AddNewPost extends Component{
   render(){
     return (
       <div>
-        <Link to={`/posts/${this.props.header === 'Readables!' ? 'All' : this.props.header}`}><img className="back-arrow" alt="A back arrow" src={backArrow}/></Link>
+        <Link to={`/${this.props.header === 'Readables!' ? '' : this.props.header}`}><img className="back-arrow" alt="A back arrow" src={backArrow}/></Link>
         <form>
           <div className="form-group">
             Title: <input className="form-control"
@@ -95,7 +95,7 @@ class AddNewPost extends Component{
               onChange={event => this.updateBodyValue(event.target.value)}></textarea>
           </div>
         </form>
-        <Link to={`/posts/${this.props.header === 'Readables!' ? 'All' : this.props.header}`}><button className="btn btn-primary add-newpost"
+        <Link to={`/${this.props.header === 'Readables!' ? '' : this.props.header}`}><button className="btn btn-primary add-newpost"
           onClick={() => this.addOrEditPost(this.state.title, this.state.body, this.state.author, this.state.category, this.state.id)}>Submit</button>
         </Link>
       </div>
