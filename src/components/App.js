@@ -136,6 +136,8 @@ class App extends Component {
                 onGetCommentId={this.props.setComment}
                 onVoteComment={this.voteComment}
                 onDeleteComment={this.deleteComment}
+                onSetPost={this.props.setPost}
+                onSetComments={this.props.setComments}
               />
             )}></Route>
             <Route exact path="/new/addnewpost" render={() => (

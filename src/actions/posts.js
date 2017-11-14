@@ -17,6 +17,7 @@ export function setCategoryPosts(category, sortVal, sortDir){
 }
 
 export function setPost(id) {
+  console.log('I AM RUNNING')
   return {
     type: SET_POST,
     payload: getPost(id)
