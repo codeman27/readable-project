@@ -7,17 +7,6 @@ import editSymbol from '../Images/EditSymbol.svg'
 import addPostImg from '../Images/AddSymbol.svg'
 
 class Post extends Component {
-  // const emptyPost = _.isEmpty(this.props.post)
-  // if(emptyPost) {
-  //   () => this.props.onSetPost(window.location.pathname.slice(6))
-  //   return(
-  //     <div>
-  //       <h4>ERROR 404</h4>
-  //       <p>Sorry, we can't find the post you're looking for :(</p>
-  //       <p>{window.location.pathname.slice(6)}</p>
-  //     </div>
-  //   )
-  // }
   componentDidMount(){
     const emptyPost = _.isEmpty(this.props.post)
     if(emptyPost) {
