@@ -1,5 +1,4 @@
-import {SET_POSTS_FULFILLED, SET_CATEGORY_POSTS_FULFILLED} from '../actions/actionTypes'
-import {SET_POST_FULFILLED} from '../actions/actionTypes'
+import {SET_POSTS_FULFILLED, SET_CATEGORY_POSTS_FULFILLED, SET_POST_FULFILLED, CLEAR_POST} from '../actions/actionTypes'
 
 export function posts (state = [], action){
   switch(action.type) {
@@ -14,6 +13,8 @@ export function posts (state = [], action){
 export function post (state = {}, action){
   switch(action.type) {
     case SET_POST_FULFILLED:
+      return action.payload
+    case CLEAR_POST:
       return action.payload
     default: return state
   }

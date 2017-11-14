@@ -116,7 +116,7 @@ class App extends Component {
                 onGetPostId={this.props.setPost}
                 onGetCommentsByPost={this.props.setComments}
                 onDeletePost={this.deletePost}
-                onClearPostValue={this.clearPostValue}
+                onClearPost={this.props.clearPost}
               />
             )}></Route>
             <Route exact path="(/\w+|/)" render={() => (
@@ -126,7 +126,7 @@ class App extends Component {
                 categories={this.props.categories}
               />
             )}></Route>
-            <Route exact path="/post/:id" render={() => (
+            <Route exact path="/:category/:id" render={() => (
               <Post post={this.props.post}
                 comments={this.props.comments}
                 header={this.props.header}
@@ -140,7 +140,7 @@ class App extends Component {
                 onSetComments={this.props.setComments}
               />
             )}></Route>
-            <Route exact path="/new/addnewpost" render={() => (
+            <Route exact path="/add/new/post" render={() => (
               <AddNewPost onAddNewPost={this.addNewPost}
                 onSubmitEditPost={this.submitEditPost}
                 categories={this.props.categories}
@@ -148,7 +148,7 @@ class App extends Component {
                 header={this.props.header}
             />
             )}></Route>
-            <Route exact path="/new/addnewcomment" render={() => (
+            <Route exact path="/add/new/comment" render={() => (
               <AddNewComment post={this.props.post}
                 comment={this.props.comment}
                 header={this.props.header}
@@ -181,6 +181,7 @@ function mapDispatchToProps(dispatch) {
     setPosts: (sortVal, sortDir) => dispatch(actions.setPosts(sortVal, sortDir)),
     setCategoryPosts: (category, sortVal, sortDir) => dispatch(actions.setCategoryPosts(category, sortVal, sortDir)),
     setPost: (id) => dispatch(actions.setPost(id)),
+    clearPost: () => dispatch(actions.clearPost()),
     setComments: (postId) => dispatch(actions.setComments(postId)),
     setComment: (id) => dispatch(actions.setComment(id))
 

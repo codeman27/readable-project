@@ -40,7 +40,7 @@ class AddNewComment extends Component {
   render(){
     return (
       <div>
-        <Link to={`/${this.props.header === 'Readables!' ? '' : this.props.header}`}><img className="back-arrow" alt="A back arrow" src={backArrow}/></Link>
+        <Link to={`/${this.props.header === 'Readables!' ? '' : this.props.header.toLowerCase()}`}><img className="back-arrow" alt="A back arrow" src={backArrow}/></Link>
         <div className="container">
           <div className="row post-body">
             <center><h4>{this.props.post.title}</h4></center>
@@ -59,7 +59,7 @@ class AddNewComment extends Component {
             value={this.state.author}
             onChange={event => this.changeAuthor(event.target.value)}></input>
         </div>
-        <Link to={`/posts/${this.props.header === 'Readables!' ? 'All' : this.props.header}`}><button className="btn btn-primary add-newpost"
+        <Link to={`/${this.props.header === 'Readables!' ? '' : this.props.header}`}><button className="btn btn-primary add-newpost"
           onClick={() => this.addOrEditComment(this.state.id, this.state.body, this.state.author, this.props.post.id)}>Submit</button>
         </Link>
       </div>

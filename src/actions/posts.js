@@ -1,4 +1,4 @@
-import { SET_POSTS, SET_CATEGORY_POSTS, SET_POST } from './actionTypes.js'
+import { SET_POSTS, SET_CATEGORY_POSTS, SET_POST, CLEAR_POST } from './actionTypes.js'
 import {getPosts, getCategoryPosts, getPost} from '../components/ReadablesAPI'
 import _ from 'lodash'
 
@@ -17,9 +17,15 @@ export function setCategoryPosts(category, sortVal, sortDir){
 }
 
 export function setPost(id) {
-  console.log('I AM RUNNING')
   return {
     type: SET_POST,
     payload: getPost(id)
+  }
+}
+
+export function clearPost(){
+  return {
+    type: CLEAR_POST,
+    payload: {}
   }
 }

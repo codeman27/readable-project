@@ -22,13 +22,13 @@ const Posts = (props) => {
                     <img alt="A downvote arrow" className="arrow down-arrow" src={arrow} onClick={ () => props.onVote(post.id, 'downVote')}/>
                   </div>
                   <div className="col-sm-9 col-xs-7">
-                    <Link key={post.id} to={`/post/${post.id}`} onClick={() => getPostAndComments(post.id)}><h4 className="post-title">{post.title}</h4></Link>
+                    <Link key={post.id} to={`/${post.category}/${post.id}`} onClick={() => getPostAndComments(post.id)}><h4 className="post-title">{post.title}</h4></Link>
                     <p>By: {post.author}</p>
                     <p>Comments: {post.commentCount}</p>
                   </div>
                   <div className="col-sm-2 col-xs-3 author-date">
                     <Link className="delete-post" to="/" onClick={() => props.onDeletePost(post.id)}>X</Link>
-                    <Link to="/addnewpost" onClick={() => props.onGetPostId(post.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
+                    <Link to="/add/new/post" onClick={() => props.onGetPostId(post.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
                     <p className="date-time">{new Date(post.timestamp).toLocaleString()}</p>
                   </div>
                 </div>

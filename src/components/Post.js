@@ -7,20 +7,26 @@ import editSymbol from '../Images/EditSymbol.svg'
 import addPostImg from '../Images/AddSymbol.svg'
 
 class Post extends Component {
-  componentDidMount(){
+  state = {
+    loading: true
+  }
+
+  componentWillMount(){
     const emptyPost = _.isEmpty(this.props.post)
+    const postId = window.location.pathname.split('/')[2]
+    this.props.onSetComments(postId)
     if(emptyPost) {
-      this.props.onSetPost(window.location.pathname.slice(6))
-      this.props.onSetComments(window.location.pathname.slice(6))
+      this.props.onSetPost(postId).then(() => this.props.onSetComments(postId)).then(() => this.setState({loading: false}))
     }
   }
   render(){
     const emptyPost = _.isEmpty(this.props.post)
-    if(emptyPost){
+    if(emptyPost && !this.state.loading){
       return(
         <div>
+          <Link to={`/${this.props.header === 'Readables!' ? '' : this.props.header}`}><img className="back-arrow" alt="A back arrow" src={backArrow}/></Link>
           <h4>ERROR 404</h4>
-          <p>Sorry, we can't find the post you're looking for :(</p>
+          <p>Sorry, we can't find the post you're looking for &lt;frownyface /&gt;</p>
         </div>
       )
     }
@@ -44,7 +50,7 @@ class Post extends Component {
             </div>
             <div className="col-sm-2">
               <Link className="delete-post" to="/" onClick={() => this.props.onDeletePost(this.props.post.id)}>X</Link>
-              <Link to="/new/addnewpost" onClick={() => this.props.onGetPostId(this.props.post.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
+              <Link to="/add/new/post" onClick={() => this.props.onGetPostId(this.props.post.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
             </div>
           </div>
           {this.props.comments.map(comment => {
@@ -65,14 +71,14 @@ class Post extends Component {
                   </div>
                   <div className="col-xs-1">
                     <Link to="/" className="delete-post"  onClick={() => this.props.onDeleteComment(comment.id, this.props.post.id)}>X</Link>
-                    <Link to="/new/addnewcomment" onClick={() => this.props.onGetCommentId(comment.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
+                    <Link to="/add/new/comment" onClick={() => this.props.onGetCommentId(comment.id)}><img alt="edit symbol" className="edit-symbol" src={editSymbol}/></Link>
                   </div>
                 </div>
               </div>
             )
           })}
         </div>
-        <Link to="/new/addnewcomment"><img alt="A plus sign to add a post" className="addcomment-img" src={addPostImg}/></Link>
+        <Link to="/add/new/comment"><img alt="A plus sign to add a post" className="addcomment-img" src={addPostImg}/></Link>
       </div>
     )
   }
