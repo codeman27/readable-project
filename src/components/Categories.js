@@ -28,11 +28,11 @@ class Categories extends Component {
             <div className="col-xs-12">
               <h3>Categories</h3>
               <ul className="nav nav-pills nav-stacked">
-                <li><Link to="/posts/All" className={this.isNavActive('Readables!')} onClick={() => { this.setActiveNav('Readables!') }}>All</Link></li>
+                <li><Link to="/" className={this.isNavActive('Readables!')} onClick={() => { this.setActiveNav('Readables!') }}>All</Link></li>
                 {this.props.categories.map((category) => {
                   let uppercaseName = category.name.charAt(0).toUpperCase() + category.name.slice(1)
                   return(
-                    <li key={category.name}><Link to={`/posts/${uppercaseName}`} className={this.isNavActive(uppercaseName)} onClick={() => { this.setActiveNav(uppercaseName) }}>{uppercaseName}</Link></li>
+                    <li key={category.name}><Link to={`/${uppercaseName}`} className={this.isNavActive(uppercaseName)} onClick={() => { this.setActiveNav(uppercaseName) }}>{uppercaseName}</Link></li>
                   )
                 })}
               </ul>

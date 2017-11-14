@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Categories from './Categories'
 import ContentSection from './ContentSection'
@@ -107,12 +107,13 @@ class App extends Component {
             </div>
           </div>
         </div>
+        <Switch>
         <div className="container">
           <div className="row">
-            <Route exact path="/" render={() => (
+            {/* <Route exact path="/" render={() => (
               <Redirect to="/posts/All" />
-            )} />
-            <Route exact path="/posts/:category" render={() => (
+            )} /> */}
+            <Route exact path="(/\w+)" render={() => (
               <ContentSection posts={this.props.posts}
                 onSortPosts={this.sortPosts}
                 onVote={this.votePost}
@@ -122,7 +123,7 @@ class App extends Component {
                 onClearPostValue={this.clearPostValue}
               />
             )}></Route>
-            <Route exact path="/posts/:category" render={() => (
+            <Route exact path="(/\w+)" render={() => (
               <Categories
                 header={this.props.header}
                 onChangeHeader={this.changeHeader}
@@ -159,6 +160,7 @@ class App extends Component {
             onSubmitEditComment={this.submitEditComment}
             />
         )} />
+        </Switch>
       </div>
     );
   }
