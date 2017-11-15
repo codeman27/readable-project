@@ -46,6 +46,7 @@ class Post extends Component {
               <center>
                 <p className="post-footer">{this.props.post.author}</p>
                 <p className="post-footer">{new Date(this.props.post.timestamp).toLocaleString()}</p>
+                <p className="post-footer">Comments: {this.props.post.commentCount}</p>
               </center>
             </div>
             <div className="col-sm-2">

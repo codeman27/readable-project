@@ -5,7 +5,6 @@ import Categories from './Categories'
 import ContentSection from './ContentSection'
 import AddNewPost from './AddNewPost'
 import Post from './Post'
-import * as ReadablesAPI from './ReadablesAPI'
 import AddNewComment from './AddNewComment'
 import '../App.css'
 import * as actions from '../actions'
@@ -52,43 +51,43 @@ class App extends Component {
     const {header} = this.props
     const id = uuidv1()
     const timestamp = Date.now()
-    ReadablesAPI.addPost(id, timestamp, title, body, author, category).then(() => this.listPosts(header))
+    this.props.addNewPost(id, timestamp, title, body, author, category).then(() => this.listPosts(header))
   }
 
   addNewComment = (body, author, parentId) => {
     const { header } = this.props
     const id = uuidv1()
     const timestamp = Date.now()
-    ReadablesAPI.addComment(id, timestamp, body, author, parentId).then(() => this.listPosts(header))
+    this.props.addNewComment(id, timestamp, body, author, parentId).then(() => this.listPosts(header))
   }
 
   submitEditPost = (id, title, body) => {
     const {header} = this.props
-    ReadablesAPI.editPost(id, title, body).then(() => this.listPosts(header))
+    this.props.editCurPost(id, title, body).then(() => this.listPosts(header))
   }
 
   submitEditComment = (id, body) => {
     const timestamp = Date.now()
-    ReadablesAPI.editComment(id, timestamp, body)
+    this.props.editCurComment(id, timestamp, body)
   }
 
   deletePost = (id) => {
     const {header} = this.props
-    ReadablesAPI.deletePost(id).then(() => this.listPosts(header))
+    this.props.deleteCurPost(id).then(() => this.listPosts(header))
   }
 
   deleteComment = (id, postId) => {
     const {header} = this.props
-    ReadablesAPI.deleteComment(id).then(() => this.listPosts(header)).then(() => this.props.setComments(postId))
+    this.props.deleteCurComment(id, postId).then(() => this.listPosts(header)).then(() => this.props.setComments(postId))
   }
 
   votePost = (id, voteType) => {
     const {header} = this.props
-    ReadablesAPI.postVote(id, voteType).then(() => this.listPosts(header)).then(() => this.props.setPost(id))
+    this.props.voteOnPost(id, voteType).then(() => this.listPosts(header)).then(() => this.props.setPost(id))
   }
 
   voteComment = (id, voteType, postId) => {
-    ReadablesAPI.postCommentVote(id, voteType).then(() => this.props.setComments(postId))
+    this.props.voteOnComment(id, voteType, postId).then(() => this.props.setComments(postId))
   }
 
   componentDidMount() {
@@ -181,9 +180,17 @@ function mapDispatchToProps(dispatch) {
     setPosts: (sortVal, sortDir) => dispatch(actions.setPosts(sortVal, sortDir)),
     setCategoryPosts: (category, sortVal, sortDir) => dispatch(actions.setCategoryPosts(category, sortVal, sortDir)),
     setPost: (id) => dispatch(actions.setPost(id)),
+    addNewPost: (id, timestamp, title, body, author, category) => dispatch(actions.addNewPost(id, timestamp, title, body, author, category)),
     clearPost: () => dispatch(actions.clearPost()),
+    editCurPost: (id, title, body) => dispatch(actions.editCurPost(id, title, body)),
+    deleteCurPost: (id) => dispatch(actions.deleteCurPost(id)),
+    voteOnPost: (id, voteType) => dispatch(actions.voteOnPost(id, voteType)),
     setComments: (postId) => dispatch(actions.setComments(postId)),
-    setComment: (id) => dispatch(actions.setComment(id))
+    setComment: (id) => dispatch(actions.setComment(id)),
+    addNewComment: (id, timestamp, body, author, parentId) => dispatch(actions.addNewComment(id, timestamp, body, author, parentId)),
+    editCurComment: (id, timestamp, body) => dispatch(actions.editCurComment(id, timestamp, body)),
+    deleteCurComment: (id, postId) => dispatch(actions.deleteCurComment(id, postId)),
+    voteOnComment: (id, voteType, postId) => dispatch(actions.voteOnComment(id, voteType, postId))
 
   }
 }
